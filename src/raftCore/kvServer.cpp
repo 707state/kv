@@ -1,6 +1,8 @@
 #include "boost/asio/io_context.hpp"
 #include "common/config.h"
 #include "rpc/mprpcconfig.h"
+#include <boost/serialization/string.hpp>
+#include <boost/serialization/vector.hpp>
 #include <memory>
 #include <raftCore/kvServer.h>
 #include <raftCore/raft.h>
@@ -26,16 +28,8 @@ void KvServer::ExecuteAppendOpOnKVDB(Op op) {
 
     m_skipList.insert_set_element(op.Key, op.Value);
 
-    // if (m_kvDB.find(op.Key) != m_kvDB.end()) {
-    //     m_kvDB[op.Key] = m_kvDB[op.Key] + op.Value;
-    // } else {
-    //     m_kvDB.insert(std::make_pair(op.Key, op.Value));
-    // }
     m_lastRequestId[op.ClientId] = op.RequestId;
     m_mtx.unlock();
-
-    //    DPrintf("[KVServerExeAPPEND-----]ClientId :%d ,RequestID :%d ,Key : %v, value :
-    //    %v", op.ClientId, op.RequestId, op.Key, op.Value)
     DprintfKVDB();
 }
 
@@ -54,13 +48,6 @@ void KvServer::ExecuteGetOpOnKVDB(Op op, std::string* value, bool* exist) {
     m_lastRequestId[op.ClientId] = op.RequestId;
     m_mtx.unlock();
 
-    if (*exist) {
-        //                DPrintf("[KVServerExeGET----]ClientId :%d ,RequestID :%d ,Key :
-        //                %v, value :%v", op.ClientId, op.RequestId, op.Key, value)
-    } else {
-        //        DPrintf("[KVServerExeGET----]ClientId :%d ,RequestID :%d ,Key : %v, But
-        //        No KEY!!!!", op.ClientId, op.RequestId, op.Key)
-    }
     DprintfKVDB();
 }
 
@@ -116,10 +103,6 @@ void KvServer::Get(const raftKVRpcProctoc::GetArgs* args,
     Op raftCommitOp;
 
     if (!chForRaftIndex->timeOutPop(CONSENSUS_TIMEOUT, &raftCommitOp)) {
-        //        DPrintf("[GET TIMEOUT!!!]From Client %d (Request %d) To Server %d, key
-        //        %v, raftIndex %d", args.ClientId, args.RequestId, kv.me, op.Key,
-        //        raftIndex)
-        // todo 2023年06月01日
         int _ = -1;
         bool isLeader = false;
         m_raftNode->GetState(&_, &isLeader);

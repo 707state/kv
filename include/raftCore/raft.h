@@ -5,6 +5,7 @@
 #include "raftCore/ApplyMsg.h"
 #include "raftCore/Persister.h"
 #include "raftCore/RaftRpcUtil.h"
+#include <boost/serialization/string.hpp>
 #include <memory>
 #include <mutex>
 #include <vector>

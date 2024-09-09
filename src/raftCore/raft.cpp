@@ -1,5 +1,8 @@
 #include "common/config.h"
 #include "raftRpcPro/raftRPC.pb.h"
+#include <boost/serialization/string.hpp>
+#include <boost/serialization/unordered_map.hpp>
+#include <boost/serialization/vector.hpp>
 #include <raftCore/raft.h>
 void Raft::AppendEntries1(const raftRpcProctoc::AppendEntriesArgs* args,
                           raftRpcProctoc::AppendEntriesReply* reply) {

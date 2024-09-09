@@ -1,5 +1,3 @@
-add_executable(test test.cpp)
-
 set(BOOST_ROOT "${CMAKE_SOURCE_DIR}/deps/boost_1_85_0")
 set(BOOST_LIBRARYDIR "${BOOST_ROOT}/stage/lib")
 
@@ -17,4 +15,4 @@ set(Boost_USE_STATIC_RUNTIME OFF) # 禁用静态运行时库，如果你不需�
 include_directories(${Boost_INCLUDE_DIRS})
 
 link_directories(${BOOST_LIBRARY_DIRS})
-target_link_libraries(test ${Boost_LIBRARIES})
+add_subdirectory(fiber_test)

@@ -22,7 +22,7 @@ set(Boost_USE_STATIC_RUNTIME OFF) # 禁用静态运行时库，如果你不需�
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 include_directories(${Boost_INCLUDE_DIRS})
-
+add_compile_options(-w)
 link_directories(${BOOST_LIBRARY_DIRS})
 include_directories(include)
 add_subdirectory(src)

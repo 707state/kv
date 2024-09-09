@@ -2,6 +2,9 @@
 #include "raftCore/raft.h"
 #include "raftRpcPro/kvServerRPC.pb.h"
 #include "skipList/skipList.h"
+#include <boost/serialization/string.hpp>
+#include <boost/serialization/unordered_map.hpp>
+#include <boost/serialization/vector.hpp>
 #include <memory>
 #include <mutex>
 class KvServer : raftKVRpcProctoc::kvServerRpc {

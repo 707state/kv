@@ -15,4 +15,7 @@ set(Boost_USE_STATIC_RUNTIME OFF) # 禁用静态运行时库，如果你不需�
 include_directories(${Boost_INCLUDE_DIRS})
 
 link_directories(${BOOST_LIBRARY_DIRS})
+
+find_package(absl REQUIRED)
 add_subdirectory(fiber_test)
+add_subdirectory(rpc_test)

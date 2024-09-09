@@ -3,6 +3,7 @@
 #include <fiber/fiber.h>
 #include <iostream>
 #include <string>
+#include <unistd.h>
 const std::string LOG_HEAD = "[TASK] ";
 
 void test_fiber_1() {

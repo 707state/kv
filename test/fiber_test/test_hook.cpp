@@ -4,6 +4,7 @@
 #include <cstring>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#include <unistd.h>
 
 const std::string LOG_HEAD = "[TASK] ";
 void test_sleep() {

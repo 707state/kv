@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.10)
 
 project(kv)
 
-set(CMAKE_CXX_STANDARD 20)
-
 set(BOOST_ROOT "${CMAKE_SOURCE_DIR}/deps/boost_1_85_0")
 set(BOOST_LIBRARYDIR "${BOOST_ROOT}/stage/lib")
 

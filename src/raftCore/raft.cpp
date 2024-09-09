@@ -4,6 +4,7 @@
 #include <boost/serialization/unordered_map.hpp>
 #include <boost/serialization/vector.hpp>
 #include <raftCore/raft.h>
+#include <thread>
 void Raft::AppendEntries1(const raftRpcProctoc::AppendEntriesArgs* args,
                           raftRpcProctoc::AppendEntriesReply* reply) {
     std::lock_guard<std::mutex> locker(m_mtx);

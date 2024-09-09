@@ -4,6 +4,7 @@
 #include <fiber/scheduler.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#include <unistd.h>
 static int listen_sock = -1;
 
 void test_accept();

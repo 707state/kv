@@ -40,7 +40,7 @@ void RpcProvider::Run(int nodeIndex, short port) {
     gethostname(hname, sizeof(hname));
     hent = gethostbyname(hname);
     for (int i = 0; hent->h_addr_list[i]; i++) {
-        ipC = inet_ntoa(*(struct in_addr*)(hent->h_addr_list[i]));
+        ipC = inet_ntoa(*reinterpret_cast<struct in_addr*>(hent->h_addr_list[i]));
     }
     std::string ip = std::string(ipC);
 

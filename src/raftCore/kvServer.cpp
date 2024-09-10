@@ -437,7 +437,7 @@ KvServer::KvServer(int me, int maxraftstate, std::string nodeInforFileName, shor
     //    同时raft与raft节点之间也要开启rpc功能，因此有两个注册
     std::thread t([this, port]() -> void {
         // provider是一个rpc网络服务对象。把UserService对象发布到rpc节点上
-        auto io_context = std::make_shared<boost::asio::io_context>();
+        auto io_context = std::make_shared<boost::asio::io_context>(1);
         // FIXME: 这个地方由于更改了大量的实现
         // 由muduo改为Boost.asio
         // 极有可能原先的代码无法正常工作

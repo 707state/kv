@@ -25,3 +25,12 @@ link_directories(${BOOST_LIBRARY_DIRS})
 include_directories(include)
 add_subdirectory(src)
 add_subdirectory(test)
+
+# 设置可执行文件的输出目录
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# 设置共享库的输出目录
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+# 设置静态库的输出目录
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)

@@ -105,17 +105,18 @@ void Raft::AppendEntries1(const raftRpcProctoc::AppendEntriesArgs* args,
                     // ，其logTerm相等，但是命令却不相同，不符合raft的前向匹配，异常了！
                     myAssert(
                         false,
-                        format(
-                            "[func-AppendEntries-rf{%d}] "
-                            "两节点logIndex{%d}和term{%d}相同，但是其command{%d:%d}   "
-                            " {%d:%d}却不同！！\n",
-                            m_me,
-                            log.logindex(),
-                            log.logterm(),
-                            m_me,
-                            m_logs[getSlicesIndexFromLogIndex(log.logindex())].command(),
-                            args->leaderid(),
-                            log.command()));
+                        format("[func-AppendEntries-rf{%d}] "
+                               "两节点logIndex{%d}和term{%d}相同，但是其command{%d:%d}   "
+                               " {%d:%d}却不同！！\n",
+                               m_me,
+                               log.logindex(),
+                               log.logterm(),
+                               m_me,
+                               m_logs[getSlicesIndexFromLogIndex(log.logindex())]
+                                   .command()
+                                   .c_str(),
+                               args->leaderid(),
+                               log.command().c_str()));
                 }
                 if (m_logs[getSlicesIndexFromLogIndex(log.logindex())].logterm()
                     != log.logterm()) {

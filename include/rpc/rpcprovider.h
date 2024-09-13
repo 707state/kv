@@ -11,28 +11,38 @@
 #include <string>
 class RpcProvider {
 public:
-    RpcProvider(boost::asio::io_context& io_context)
-        : io_context_(io_context)
-        , acceptor_(io_context) {}
+    // Notify the service to expose RPC methods
     void NotifyService(google::protobuf::Service* service);
+
+    // Start RPC service node to provide remote calls
     void Run(int nodeIndex, short port);
-    ~RpcProvider();
+    explicit RpcProvider(std::shared_ptr<boost::asio::io_context> context)
+        : m_io_context(context) {}
+
+private:
+    // Replace Muduo's EventLoop with Boost.Asio's io_context
+    std::shared_ptr<boost::asio::io_context> m_io_context;
+    std::shared_ptr<boost::asio::ip::tcp::acceptor> m_acceptor;
 
     struct ServiceInfo {
         google::protobuf::Service* m_service;
-        boost::unordered_map<std::string, const google::protobuf::MethodDescriptor*>
-            m_mathodMap;
+        std::unordered_map<std::string, const google::protobuf::MethodDescriptor*>
+            m_methodMap;
     };
 
-private:
-    void StartAccept();
-    void OnConnection(const boost::system::error_code& ec,
-                      std::shared_ptr<boost::asio::ip::tcp::socket> socket);
-    void OnMessage(std::shared_ptr<boost::asio::ip::tcp::socket> socket);
-    void SendRpcResponse(std::shared_ptr<boost::asio::ip::tcp::socket> socket,
+    // Store registered services and their method information
+    std::unordered_map<std::string, ServiceInfo> m_serviceMap;
+
+    // Callback for new connections
+    void OnConnection(const std::shared_ptr<boost::asio::ip::tcp::socket>& socket);
+    // Callback for reading/writing events on an established connection
+    void OnMessage(const std::shared_ptr<boost::asio::ip::tcp::socket>& socket,
+                   const boost::system::error_code& error,
+                   std::size_t bytes_transferred);
+    // Send RPC response
+    void SendRpcResponse(const std::shared_ptr<boost::asio::ip::tcp::socket>& socket,
                          google::protobuf::Message* response);
 
-    boost::asio::io_context& io_context_;
-    boost::asio::ip::tcp::acceptor acceptor_;
-    std::unordered_map<std::string, ServiceInfo> m_serviceMap;
+public:
+    ~RpcProvider() = default;
 };

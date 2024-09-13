@@ -2,6 +2,7 @@
 #include "boost/asio/io_context.hpp"
 #include "rpc/mprpcchannel.h"
 #include "rpc/rpcprovider.h"
+#include <memory>
 class FriendService : public fixbug::FiendServiceRpc {
 public:
     std::vector<std::string> GetFriendsList(uint32_t userid) {
@@ -35,7 +36,7 @@ int main(int argc, char** argv) {
     short port = 7788;
     auto stub = new fixbug::FiendServiceRpc_Stub(new MprpcChannel(ip, port, false));
     // provider是一个rpc网络服务对象。把UserService对象发布到rpc节点上
-    boost::asio::io_context io_context(1);
+    auto io_context = std::make_shared<boost::asio::io_context>(1);
     RpcProvider provider(io_context);
     provider.NotifyService(new FriendService());
 

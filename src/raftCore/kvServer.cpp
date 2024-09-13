@@ -441,7 +441,7 @@ KvServer::KvServer(int me, int maxraftstate, std::string nodeInforFileName, shor
         // FIXME: 这个地方由于更改了大量的实现
         // 由muduo改为Boost.asio
         // 极有可能原先的代码无法正常工作
-        RpcProvider provider(*io_context);
+        RpcProvider provider(io_context);
         provider.NotifyService(this);
         provider.NotifyService(
             this->m_raftNode
